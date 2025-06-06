@@ -177,9 +177,16 @@ const TimeTracker = () => {
                       placeholder="9:15 AM"
                       value={newEntry.start_time}
                       onChange={(e) => setNewEntry({ ...newEntry, start_time: e.target.value })}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className={`mt-1 block w-full rounded-md shadow-sm focus:ring-indigo-500 ${
+                        errors.start_time 
+                          ? 'border-red-300 focus:border-red-500' 
+                          : 'border-gray-300 focus:border-indigo-500'
+                      }`}
                       required
                     />
+                    {errors.start_time && (
+                      <p className="mt-1 text-xs text-red-600">{errors.start_time}</p>
+                    )}
                   </div>
                   <div>
                     <label className="block text-sm font-medium text-gray-700">End Time</label>
@@ -188,9 +195,16 @@ const TimeTracker = () => {
                       placeholder="10:53 AM"
                       value={newEntry.end_time}
                       onChange={(e) => setNewEntry({ ...newEntry, end_time: e.target.value })}
-                      className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+                      className={`mt-1 block w-full rounded-md shadow-sm focus:ring-indigo-500 ${
+                        errors.end_time 
+                          ? 'border-red-300 focus:border-red-500' 
+                          : 'border-gray-300 focus:border-indigo-500'
+                      }`}
                       required
                     />
+                    {errors.end_time && (
+                      <p className="mt-1 text-xs text-red-600">{errors.end_time}</p>
+                    )}
                   </div>
                 </div>
 
