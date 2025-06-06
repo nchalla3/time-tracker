@@ -199,7 +199,12 @@ const TimeTracker = () => {
                       type="text"
                       placeholder="10:53 AM"
                       value={newEntry.end_time}
-                      onChange={(e) => setNewEntry({ ...newEntry, end_time: e.target.value })}
+                      onChange={(e) => {
+                        setNewEntry({ ...newEntry, end_time: e.target.value });
+                        if (errors.end_time && validateTimeFormat(e.target.value)) {
+                          setErrors({ ...errors, end_time: '' });
+                        }
+                      }}
                       className={`mt-1 block w-full rounded-md shadow-sm focus:ring-indigo-500 ${
                         errors.end_time 
                           ? 'border-red-300 focus:border-red-500' 
