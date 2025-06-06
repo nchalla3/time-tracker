@@ -169,6 +169,51 @@ class TimeTrackerAPITester:
         
         return success, response
 
+    def test_time_format_validation(self):
+        """Test time format validation with various formats"""
+        print("\n🔍 Testing Time Format Validation...")
+        
+        # Valid time formats
+        valid_formats = [
+            ("9:15 AM", "10:30 AM", "Valid format with single-digit hour"),
+            ("09:15 AM", "10:30 AM", "Valid format with leading zero"),
+            ("2:30 PM", "3:45 PM", "Valid format with PM time"),
+            ("12:00 AM", "1:00 AM", "Valid format with midnight"),
+            ("11:59 PM", "12:30 AM", "Valid format with near-midnight")
+        ]
+        
+        # Invalid time formats
+        invalid_formats = [
+            ("14:30", "15:45", "Invalid 24-hour format"),
+            ("9:15", "10:30", "Missing AM/PM"),
+            ("abc", "def", "Non-time string"),
+            ("25:00 AM", "26:00 PM", "Invalid hour"),
+            ("9:75 AM", "10:30 AM", "Invalid minute"),
+            ("9:15 am", "10:30 am", "Lowercase am/pm")
+        ]
+        
+        # Test valid formats
+        print("\n✅ Testing Valid Time Formats:")
+        valid_results = []
+        for start_time, end_time, desc in valid_formats:
+            success, response = self.test_create_time_entry(start_time, end_time, f"Test: {desc}", "Productive")
+            valid_results.append((success, desc, start_time, end_time))
+        
+        # Test invalid formats
+        print("\n❌ Testing Invalid Time Formats (these should fail on the frontend):")
+        for start_time, end_time, desc in invalid_formats:
+            print(f"Testing: {desc} - {start_time} to {end_time}")
+            # Note: We're not using test_create_time_entry because these should be caught by frontend validation
+            # This is just to document what would happen if these formats reached the backend
+            
+        # Summary
+        print("\nTime Format Validation Summary:")
+        for success, desc, start_time, end_time in valid_results:
+            status = "✅ Passed" if success else "❌ Failed"
+            print(f"{status}: {desc} ({start_time} - {end_time})")
+            
+        return all(result[0] for result in valid_results)
+
     def run_all_tests(self):
         """Run all API tests"""
         print("🚀 Starting Time Tracker API Tests")
@@ -184,7 +229,10 @@ class TimeTrackerAPITester:
         # Test getting available tags
         self.test_available_tags()
         
-        # Test creating time entries
+        # Test time format validation
+        self.test_time_format_validation()
+        
+        # Test creating time entries with standard formats
         self.test_create_time_entry("9:00 AM", "10:30 AM", "breakfast", "Self-Care")
         self.test_create_time_entry("10:30 AM", "12:00 PM", "work meeting", "Productive")
         self.test_create_time_entry("1:00 PM", "2:15 PM", "lunch break", "Self-Care")
