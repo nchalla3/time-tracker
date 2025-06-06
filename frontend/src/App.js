@@ -75,6 +75,22 @@ const TimeTracker = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+    setErrors({});
+    
+    // Validate time formats
+    const newErrors = {};
+    if (!validateTimeFormat(newEntry.start_time)) {
+      newErrors.start_time = 'Please enter time in format "9:15 AM" or "2:30 PM"';
+    }
+    if (!validateTimeFormat(newEntry.end_time)) {
+      newErrors.end_time = 'Please enter time in format "9:15 AM" or "2:30 PM"';
+    }
+    
+    if (Object.keys(newErrors).length > 0) {
+      setErrors(newErrors);
+      setLoading(false);
+      return;
+    }
     
     try {
       await axios.post(`${API}/time-entries`, {
@@ -94,6 +110,7 @@ const TimeTracker = () => {
       fetchWeeklyAnalytics();
     } catch (error) {
       console.error('Error creating entry:', error);
+      setErrors({ submit: 'Failed to create entry. Please try again.' });
     } finally {
       setLoading(false);
     }
