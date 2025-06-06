@@ -240,6 +240,10 @@ const TimeTracker = () => {
                 >
                   {loading ? 'Adding...' : 'Add Entry'}
                 </button>
+                
+                {errors.submit && (
+                  <p className="mt-2 text-sm text-red-600 text-center">{errors.submit}</p>
+                )}
               </form>
             </div>
 
