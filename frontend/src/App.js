@@ -18,9 +18,15 @@ const TimeTracker = () => {
   const [weeklyAnalytics, setWeeklyAnalytics] = useState([]);
   const [availableTags, setAvailableTags] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState({});
 
   // Available tags (matching user's Google Sheets)
   const defaultTags = ["Sleep", "Self-Care", "Unproductive", "Transit", "Class (Blocked)", "Productive"];
+
+  const validateTimeFormat = (timeStr) => {
+    const timeRegex = /^(1[0-2]|0?[1-9]):([0-5][0-9])\s?(AM|PM)$/i;
+    return timeRegex.test(timeStr.trim());
+  };
 
   useEffect(() => {
     fetchEntries();
