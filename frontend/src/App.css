@@ -1,38 +1,70 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .App {
-    text-align: center;
+  text-align: left;
 }
 
-.App-logo {
-    height: 40vmin;
-    pointer-events: none;
+/* Custom styles for time inputs */
+input[type="text"]::placeholder {
+  color: #9CA3AF;
+  font-style: italic;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-    .App-logo {
-        animation: App-logo-spin infinite 20s linear;
-    }
+/* Hover effects for table rows */
+tbody tr:hover {
+  background-color: #F9FAFB;
 }
 
-.App-header {
-    background-color: #0f0f10;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    font-size: calc(10px + 2vmin);
-    color: white;
+/* Custom focus styles */
+input:focus, select:focus {
+  outline: none;
+  ring: 2px;
+  ring-color: #6366F1;
+  border-color: #6366F1;
 }
 
-.App-link {
-    color: #61dafb;
+/* Loading state */
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
-@keyframes App-logo-spin {
-    from {
-        transform: rotate(0deg);
-    }
-    to {
-        transform: rotate(360deg);
-    }
+/* Tag color variations */
+.tag-sleep { @apply bg-gray-100 text-gray-800; }
+.tag-self-care { @apply bg-orange-100 text-orange-800; }
+.tag-unproductive { @apply bg-red-100 text-red-800; }
+.tag-transit { @apply bg-yellow-100 text-yellow-800; }
+.tag-class { @apply bg-purple-100 text-purple-800; }
+.tag-productive { @apply bg-green-100 text-green-800; }
+
+/* Responsive improvements */
+@media (max-width: 640px) {
+  .grid-cols-2 {
+    grid-template-columns: 1fr;
+  }
+  
+  table {
+    font-size: 0.75rem;
+  }
+  
+  .px-6 {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Animation for trend icons */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
